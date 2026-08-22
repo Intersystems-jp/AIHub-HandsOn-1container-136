@@ -1,0 +1,5 @@
+ContactId,CustomerId,ContactName,RoleTitle,Department,Email,InterestArea,DecisionInfluence,CommunicationStyle,LastInteractionSummary
+P001,C001,鈴木 一郎,DX推進室 室長,DX推進室,ichiro.suzuki@example.com,"AIエージェント, 業務効率化",High,要点を先に知りたい,会議準備や社内問い合わせ対応でAIエージェントを試したいと発言
+P002,C001,高橋 由美,情報システム部 課長,情報システム部,yumi.takahashi@example.com,"既存システム連携, 権限管理",Medium,技術的な裏付けを重視,MCPで既存APIを安全に公開できるか確認したい
+P003,C002,森 亮太,医療情報部 部長,医療情報部,ryota.mori@example.com,"FHIR, 監査ログ",High,セキュリティ観点の確認が多い,データ活用時のアクセス制御とログを重視
+P004,C003,小林 真奈,営業企画部 マネージャー,営業企画部,mana.kobayashi@example.com,"キャンペーン分析, 店舗支援",Medium,画面イメージや効果例を好む,店舗スタッフ向けの簡単なAI支援に関心

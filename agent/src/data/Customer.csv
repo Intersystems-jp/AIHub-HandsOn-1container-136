@@ -1,0 +1,4 @@
+CustomerId,CustomerName,Industry,Region,AccountOwner,ContractPlan,ContractStatus,AnnualRevenueRange,EmployeeCount,MainSystem,CurrentInterests,CurrentChallenges,NextMeetingDate,NextMeetingPurpose,LastContactDate,Notes
+C001,ABC商事,製造業,関東,佐藤 美咲,Enterprise,Active,1000億円以上,5200,"ERP, 生産管理, データウェアハウス","生成AI活用, データ統合, 既存システム連携",部門ごとに顧客・在庫・問い合わせ情報が分散し、会議前の情報収集に時間がかかる,2026-06-05,AIエージェントを使った営業・サポート部門の情報統合デモ相談,2026-05-22,DX推進室が主導。現場部門にも説明しやすい短いデモを希望。
+C002,東都メディカルグループ,医療,関東,田中 健,Standard,Active,500億円以上,3100,"電子カルテ, DWH, 予約管理","FHIR, 分析基盤, RAGチャットボット",診療データと事務系データが分かれており、横断検索が難しい,2026-06-09,医療データ活用とAI問い合わせ対応の検討,2026-05-28,セキュリティと監査ログを重視。
+C003,北星リテール,小売,北海道,山本 葵,Professional,Prospect,300億円以上,1800,"POS, EC, 会員管理","需要予測, キャンペーン自動化, 問い合わせ要約",店舗・EC・コールセンターの情報連携が遅い,2026-06-12,店舗運営向けAI支援の初回提案,2026-05-30,予算化は下期予定。短期間で効果が見えるテーマを希望。

@@ -1,0 +1,84 @@
+set $namespace="%SYS"
+Do ##class(Security.Users).UnExpireUserPasswords("*")
+Do ##class(Config.NLS.Locales).Install("jpuw")
+
+// Embedded Python用にCallInサービスを有効化（現在の設定を取得）
+set st=##class(Security.Services).Get("%Service_CallIn",.pro)
+set pro("Enabled")=1
+// 修正登録
+set st=##class(Security.Services).Modify("%Service_CallIn",.pro)
+
+// ワークフロー用ロール作成
+set status=##class(Security.Roles).Create("WorkFlowSystemRole","the role for workflow portal","%DeepSee_Portal:U,%Ens_Portal:U")
+//ManagerAの作成
+set status=##class(Security.Users).Create("ManagerA","WorkFlowSystemRole,%DB_T1","SYS","for Workflow portal","T1",,,,1,,,,,,1)
+
+// ネームスペース作成（T1）
+do $System.OBJ.Load("/opt/src/Demo/Installer.cls","ck")
+// インストーラーの実行
+set sc = ##class(Demo.Installer).setup()
+// T1作成後、アプリケーションパスにAnalyticsを有効化
+set userpath = ##class(Security.Applications).%OpenId("/csp/t1")
+set userpath.DeepSeeEnabled=1
+set status=userpath.%Save()
+
+//REST用エンドポイント /meeting
+set webName = "/meeting"
+set webProperties("DispatchClass") = "Demo.Interop.REST"
+set webProperties("NameSpace") = "T1"
+set webProperties("Enabled") = 1
+set webProperties("AutheEnabled") = 64
+set webProperties("MatchRoles")=":%All"
+set st=##class(Security.Applications).Create(webName, .webProperties)
+kill webProperties
+
+//WorkFlow-Web用エンドポイント /wf
+set webName = "/wf"
+set webProperties("DispatchClass") = "Demo.Interop.WF.REST"
+set webProperties("NameSpace") = "T1"
+set webProperties("Enabled") = 1
+set webProperties("AutheEnabled") = 96
+set webProperties("MatchRoles")=":%All"
+set st=##class(Security.Applications).Create(webName, .webProperties)
+kill webProperties
+
+//MCPサーバー用エンドポイント1
+//　1コンテナ版のデモ用MCPエンドポイントはT1に用意する
+kill
+set webName = "/mcp/meetingservice"
+set webProperties("DispatchClass") = "Demo.Service.MeetingService"
+set webProperties("NameSpace") = "USER"
+set webProperties("Enabled") = 1
+set webProperties("AutheEnabled") = 96
+set webProperties("MatchRoles")=":%All"
+set webProperties("Type") = 18
+Set webProperties("CookiePath")="/"
+Set webProperties("Recurse")=1
+Set webProperties("WSGICallable")=""
+Set webProperties("WSGIDebug")=""
+Set webProperties("WSGIType")=""
+set st=##class(Security.Applications).Create(webName, .webProperties)
+kill webProperties
+
+// ネームスペース移動
+set $namespace="T1"
+// クラス定義インポート
+do $System.OBJ.LoadDir("/opt/src/Demo/Agent","ck",,1)
+do $System.OBJ.LoadDir("/opt/src/Demo/Interop","ck",,1)
+do $System.OBJ.LoadDir("/opt/src/FS","ck",,1)
+do $System.OBJ.Load("/opt/src/Demo/Installer.cls","ck")
+//プロダクション自動起動
+do ##class(Ens.Director).SetAutoStart("Demo.Interop.Production")
+
+// ワークフロー用定義作成
+do ##class(Demo.Installer).CreateWFUserAndRole()
+
+// ネームスペース移動(演習で作成するMCPFS用)
+set $namespace="USER"
+// クラス定義インポート
+do $System.OBJ.LoadDir("/opt/src/MCPFS","ck",,1)
+do $System.OBJ.LoadDir("/opt/src/Demo/Service","ck",,1)
+do $System.OBJ.LoadDir("/opt/src/Demo/Tool","ck",,1)
+do $System.OBJ.Load("/opt/src/Demo/Installer.cls","ck",,1)
+// テーブル用意
+do ##class(Demo.Installer).loadsql("/opt/src/MCPFS/SalesTarget.sql")

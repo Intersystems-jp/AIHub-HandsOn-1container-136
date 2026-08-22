@@ -1,0 +1,52 @@
+###
+# MCPのinitialize
+POST http://localhost:51603/mcp
+Accept: application/json, text/event-stream
+Content-Type: application/json;charset=utf-8
+Authorization: SuperUer:SYS
+
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "initialize",
+  "params": {
+    "protocolVersion": "2025-03-26",
+    "capabilities": {},
+    "clientInfo": {
+      "name": "vscode-rest-client",
+      "version": "0.1.0"
+    }
+  }
+}
+
+###
+POST http://localhost:51603/mcp
+Accept: application/json, text/event-stream
+Content-Type: application/json;charset=utf-8
+Mcp-Session-Id: 7f5228ce-80fa-493c-aabb-0156f684e962
+Authorization: SuperUer:SYS
+
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "method": "tools/list",
+  "params": {}
+}
+
+
+### 売上目標を返す
+POST http://localhost:51603/mcp
+Accept: application/json, text/event-stream
+Content-Type: application/json;charset=utf-8
+Mcp-Session-Id: 7f5228ce-80fa-493c-aabb-0156f684e962
+Authorization: SuperUer:SYS
+
+{
+  "jsonrpc": "2.0",
+  "id": 3,
+  "method": "tools/call",
+  "params": {
+    "name": "mcp_target_GetStoreSalesTargets",
+    "arguments": {}
+  }
+}

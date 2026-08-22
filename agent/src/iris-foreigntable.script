@@ -1,0 +1,4 @@
+// USERネームスペースにサンプル配置
+set $namespace="USER"
+// 外部テーブル作成
+do ##class(Demo.Installer).loadsql("/opt/src/sql/MeetingDemoDDL.sql")

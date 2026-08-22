@@ -1,0 +1,106 @@
+###
+# MCPのinitialize
+POST http://localhost:51603/mcp
+Accept: application/json, text/event-stream
+Content-Type: application/json;charset=utf-8
+Authorization: SuperUer:SYS
+
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "initialize",
+  "params": {
+    "protocolVersion": "2025-03-26",
+    "capabilities": {},
+    "clientInfo": {
+      "name": "vscode-rest-client",
+      "version": "0.1.0"
+    }
+  }
+}
+
+
+###
+POST http://localhost:51603/mcp
+Accept: application/json, text/event-stream
+Content-Type: application/json;charset=utf-8
+Mcp-Session-Id: 945e20bf-4c42-4544-a017-3a84299b131e
+Authorization: SuperUer:SYS
+
+{
+  "jsonrpc": "2.0",
+  "method": "notifications/initialized",
+  "params": {}
+}
+
+
+###
+POST http://localhost:51603/mcp
+Accept: application/json, text/event-stream
+Content-Type: application/json;charset=utf-8
+Mcp-Session-Id: 945e20bf-4c42-4544-a017-3a84299b131e
+Authorization: SuperUer:SYS
+
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "method": "tools/list",
+  "params": {}
+}
+
+
+### hello
+POST http://localhost:51603/mcp
+Accept: application/json, text/event-stream
+Content-Type: application/json;charset=utf-8
+Mcp-Session-Id: 945e20bf-4c42-4544-a017-3a84299b131e
+Authorization: SuperUer:SYS
+
+{
+  "jsonrpc": "2.0",
+  "id": 3,
+  "method": "tools/call",
+  "params": {
+    "name": "mcp_meetingservice_hello",
+    "arguments": {}
+  }
+}
+
+### 担当者情報
+POST http://localhost:51603/mcp
+Accept: application/json, text/event-stream
+Content-Type: application/json;charset=utf-8
+Mcp-Session-Id: 945e20bf-4c42-4544-a017-3a84299b131e
+Authorization: SuperUer:SYS
+
+{
+  "jsonrpc": "2.0",
+  "id": 4,
+  "method": "tools/call",
+  "params": {
+    "name": "mcp_meetingservice_GetCustomerContacts",
+    "arguments": {
+      "custid": "C001"
+    }
+  }
+}
+
+### 取引先会社のID（customer_id）から取引先顧客会社情報を取得
+###（CRMにある情報のイメージ）
+POST http://localhost:51603/mcp
+Accept: application/json, text/event-stream
+Content-Type: application/json;charset=utf-8
+Mcp-Session-Id: 945e20bf-4c42-4544-a017-3a84299b131e
+Authorization: SuperUer:SYS
+
+{
+  "jsonrpc": "2.0",
+  "id": 4,
+  "method": "tools/call",
+  "params": {
+    "name": "mcp_meetingservice_GetCustomerInfo",
+    "arguments": {
+      "custid": "C001"
+    }
+  }
+}

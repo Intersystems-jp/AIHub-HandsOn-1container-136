@@ -1,0 +1,55 @@
+###
+# BS呼び出し
+POST http://localhost:9993/meeting/prep
+Accept: application/json
+Content-Type: application/json;charset=utf-8
+
+{"request":"明日の北星リテールとの会議準備をして"}
+
+###
+GET http://localhost:9993/meeting/prep
+Accept: application/json
+Content-Type: application/json;charset=utf-8
+
+###
+# TASK一覧
+GET http://localhost:9993/wf/tasks
+Accept: application/json
+Content-Type: application/json;charset=utf-8
+Authorization: Basic ManagerA:SYS
+
+###
+# Task 1個GET
+GET http://localhost:9993/wf/task/15||ManagerA
+Accept: application/json
+Content-Type: application/json;charset=utf-8
+Authorization: Basic ManagerA:SYS
+
+###
+# Task 1個対応
+POST http://localhost:9993/wf/task/46||ManagerA
+Accept: application/json
+Content-Type: application/json;charset=utf-8
+Authorization: Basic ManagerA:SYS
+
+{
+    "action": "approve",
+    "formFields": {
+        "ReviewComment": "",
+    },
+}
+
+###
+# Task 1個対応
+## { "action":"revise","formFields":{"ReviewComment":"testtest"}} 
+POST http://localhost:9993/wf/task/43||ManagerA
+Accept: application/json
+Content-Type: application/json;charset=utf-8
+Authorization: Basic ManagerA:SYS
+
+{
+    "action": "revise",
+    "formFields": {
+        "ReviewComment": "経営層向けに書き換えてください。技術説明は最小限にし、ROI・売上向上・コスト削減・投資対効果を中心にしてください。デモも画面説明ではなく、経営効果を説明する3ステップ構成にしてください。",
+    },
+}

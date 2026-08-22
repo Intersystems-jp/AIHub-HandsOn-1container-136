@@ -1,0 +1,6 @@
+mcp
+openai
+fastapi
+uvicorn[standard]
+jinja2
+pydantic

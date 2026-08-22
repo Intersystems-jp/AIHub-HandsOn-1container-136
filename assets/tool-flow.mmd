@@ -1,0 +1,22 @@
+flowchart TD
+    A[ユーザがCSVファイルと質問を入力]
+    B[エージェントが依頼内容を確認]
+    C[ClearData<br/>既存データを削除]
+    D[LoadCSV<br/>CSV をテーブルに登録する]
+    E[RecordCount<br/登録件数を確認]
+    F{エージェントが質問内容を判断}
+    G[GetSalesSummary<br/>売上全体の概要を取得]
+    H[AnalyzeSalesByStore<br/>店舗別売上を取得]
+    I[取得結果を分析]
+    J[JSON形式で回答]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F -->|売上全体の質問| G
+    F -->|店舗別比較の質問| H
+    G --> I
+    H --> I
+    I --> J

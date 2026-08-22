@@ -1,0 +1,6 @@
+TicketId,CustomerId,OpenedAt,ClosedAt,Status,Priority,Category,Subject,Description,ResolutionSummary,CustomerImpact,RelatedProduct,OwnerName
+T001,C001,2026-05-10 09:20:00,2026-05-10 15:40:00,Closed,High,Integration,CRM連携バッチの遅延,夜間バッチ後にCRM連携データの反映が遅れ、営業画面で一部情報が古い状態になった。,連携処理のリトライ設定を調整し、監視項目を追加した。,営業担当者の朝会準備に影響,IRIS Interoperability,中村 拓也
+T002,C001,2026-05-26 11:05:00,,Open,Medium,Support,サポート履歴を営業会議前に要約したい,営業担当者が会議前に未解決問い合わせと過去の重要問い合わせを短時間で把握したい。,,会議準備に時間がかかる,AI Hub,中村 拓也
+T003,C001,2026-05-29 14:30:00,,Open,Low,Question,MCPツールの権限管理について確認したい,MCP経由で既存システムの情報を取得する場合、ユーザー権限と監査ログをどう扱うか確認したい。,,本番導入判断に影響,MCP Server,石井 萌
+T004,C002,2026-05-24 10:00:00,2026-05-25 13:15:00,Closed,Medium,Security,監査ログ出力項目の確認,FHIRデータ参照時のユーザーID、時刻、対象リソースの記録内容を確認したい。,標準ログと追加監査項目の例を提示した。,セキュリティレビューに影響,IRIS for Health,田中 健
+T005,C003,2026-05-31 16:45:00,,Open,Medium,Question,店舗問い合わせの分類方法を相談したい,問い合わせ内容をFAQ、在庫、キャンペーン、障害に分類して担当部署へ回したい。,,店舗対応時間の短縮に関係,AI Hub,山本 葵

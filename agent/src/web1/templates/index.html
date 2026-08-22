@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>会議準備AIエージェント デモ</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">InterSystems IRIS × AI Agent Demo</p>
+      <h1>会議準備AIエージェント</h1>
+      <p class="lead">営業担当者の会議準備依頼から、顧客情報・過去議事録・Issue・Web検索結果をまとめます。</p>
+    </div>
+    <div class="mode-card">
+      <label for="demoMode">デモ種別</label>
+      <select id="demoMode">
+        <option value="basic">基本編</option>
+        <option value="advanced" selected>アドバンスド編</option>
+        <option value="review">Human in the loop編</option>
+      </select>
+      <span id="className" class="class-name"></span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel request-panel">
+      <div class="panel-title-row">
+        <h2>会議準備依頼</h2>
+        <span class="status idle" id="statusBadge">待機中</span>
+      </div>
+      <textarea id="requestText" rows="5" placeholder="例：明日の北星リテールとの会議準備をして">明日の北星リテールとの会議準備をして</textarea>
+      <div class="action-row">
+        <button id="runButton" class="primary">会議準備を作成</button>
+        <button id="loadSampleButton" class="secondary">サンプル表示</button>
+      </div>
+
+      <div id="reviewBox" class="review-box hidden">
+        <h3>Human Review</h3>
+        <p>草案を確認し、承認または修正依頼を入力します。</p>
+        <textarea id="reviewComment" rows="3" placeholder="例：5分デモ用に3ステップに整理してください"></textarea>
+        <div class="action-row">
+          <button id="approveButton" class="success">Approve</button>
+          <button id="reviseButton" class="warning">Revise</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel result-panel">
+      <div class="panel-title-row">
+        <h2>LLM生成結果</h2>
+        <span id="customerName" class="customer-chip">未生成</span>
+      </div>
+
+      <div class="summary-card">
+        <h3 id="meetingPurpose">会議目的</h3>
+        <p id="customerSummary">ここに顧客概要が表示されます。</p>
+      </div>
+
+      <div class="grid two-col">
+        <article class="card">
+          <h3>取引先担当者情報</h3>
+          <div id="keyPeople" class="list-area empty">未生成</div>
+        </article>
+        <article class="card">
+          <h3>現在上がっているIssue</h3>
+          <div id="openIssues" class="list-area empty">未生成</div>
+        </article>
+      </div>
+
+      <article class="card">
+        <h3>過去の打ち合わせ要約・リスト</h3>
+        <div id="recentTopics" class="timeline empty">未生成</div>
+      </article>
+
+      <div class="grid two-col">
+        <article class="card">
+          <h3>会議準備のリスト</h3>
+          <ul id="preparationItems" class="check-list empty"><li>未生成</li></ul>
+        </article>
+        <article class="card">
+          <h3>Web検索結果</h3>
+          <div id="additionalResearch" class="list-area empty">未生成</div>
+        </article>
+      </div>
+
+      <article id="demoPlanCard" class="card hidden">
+        <h3>デモ計画</h3>
+        <div class="grid two-col compact">
+          <div>
+            <h4>画面デモで見せる項目</h4>
+            <ul id="screenDemoItems" class="check-list"></ul>
+          </div>
+          <div>
+            <h4>期待効果</h4>
+            <ul id="expectedEffects" class="check-list"></ul>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="panel debug-panel">
+      <div class="panel-title-row">
+        <h2>デバッグ表示</h2>
+        <label class="toggle"><input type="checkbox" id="debugToggle" checked /> 表示</label>
+      </div>
+      <div id="debugContent">
+        <div class="grid three-col">
+          <article class="card debug-card">
+            <h3>登録したTool</h3>
+            <div id="availableTools" class="tool-list empty">未取得</div>
+          </article>
+          <article class="card debug-card">
+            <h3>今回LLMが選んだTool</h3>
+            <div id="calledTools" class="tool-list empty">未取得</div>
+          </article>
+          <article class="card debug-card">
+            <h3>IRIS Agent Class</h3>
+            <pre id="agentClassBox"></pre>
+          </article>
+        </div>
+        <article class="card raw-json-card">
+          <h3>LLM返送情報 全体JSON</h3>
+          <pre id="rawJson">{}</pre>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

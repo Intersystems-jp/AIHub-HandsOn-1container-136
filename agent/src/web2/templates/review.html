@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Human Review Demo | Meeting Preparation Agent</title>
+  <link rel="stylesheet" href="/static/review.css?v=4" />
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">InterSystems IRIS + AI Agent + Workflow</p>
+      <h1>Human in the loop 会議準備デモ</h1>
+      <p class="subtitle">BPLで草案作成後にWorkflowへレビュー依頼を出し、人の承認または修正依頼で処理を再開します。</p>
+    </div>
+    <div class="status-pill" id="connectionStatus">Ready</div>
+  </header>
+
+  <main class="layout">
+    <section class="panel start-panel">
+      <div class="panel-title-row">
+        <div>
+          <p class="step-label">Step 1</p>
+          <h2>会議準備依頼</h2>
+        </div>
+        <span class="badge">Start BPL</span>
+      </div>
+
+      <label for="requestText">依頼文</label>
+      <textarea id="requestText" rows="8">明日の北星リテールとの会議準備をして</textarea>
+
+      <button class="primary-button" id="startButton">Human Review開始</button>
+
+      <div class="info-box">
+        <strong>呼び出し先</strong>
+        <code>POST http://localhost/meeting/prep</code>
+      </div>
+
+      <div class="mini-log">
+        <h3>開始結果</h3>
+        <pre id="startResult">まだ開始していません。</pre>
+      </div>
+    </section>
+
+    <section class="panel inbox-panel">
+      <div class="panel-title-row">
+        <div>
+          <p class="step-label">Step 2</p>
+          <h2>Workflow受信箱</h2>
+        </div>
+        <span class="badge">ManagerA</span>
+      </div>
+
+      <div class="toolbar">
+        <button class="secondary-button" id="refreshButton">一覧を更新</button>
+        <label class="switch-line">
+          <input type="checkbox" id="autoRefresh" checked />
+          自動更新
+        </label>
+      </div>
+
+      <div class="info-box compact">
+        <code>GET http://localhost/wf/tasks</code>
+      </div>
+
+      <div class="task-list" id="taskList">
+        <div class="empty-state">Workflowタスクを取得するとここに表示されます。</div>
+      </div>
+    </section>
+
+    <section class="panel review-panel">
+      <div class="panel-title-row">
+        <div>
+          <p class="step-label">Step 3</p>
+          <h2>レビュー実行</h2>
+        </div>
+        <span class="badge" id="selectedTaskBadge">No task</span>
+      </div>
+
+      <div class="selected-task-summary" id="selectedTaskSummary">
+        レビュー対象を選択してください。
+      </div>
+
+      <div class="result-tabs">
+        <button class="tab-button active" data-tab="formatted">草案表示</button>
+        <button class="tab-button" data-tab="raw">取得JSON</button>
+        <button class="tab-button" data-tab="final">処理結果</button>
+      </div>
+
+      <div class="tab-content active" id="tab-formatted">
+        <div id="draftView" class="draft-view empty-state">Workflowタスクを開くと草案を表示します。</div>
+      </div>
+
+      <div class="tab-content" id="tab-raw">
+        <pre id="taskRaw">{}</pre>
+      </div>
+
+      <div class="tab-content" id="tab-final">
+        <pre id="replyResult">まだレビュー処理を実行していません。</pre>
+      </div>
+
+      <div class="review-actions">
+        <label for="reviewComment">修正コメント</label>
+        <textarea id="reviewComment" rows="4" placeholder="例：5分デモ用に3ステップに整理してください"></textarea>
+        <div class="button-row">
+          <button class="danger-button" id="reviseButton" disabled>修正依頼 revise</button>
+          <button class="approve-button" id="approveButton" disabled>承認 approve</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="debug-footer">
+    <details>
+      <summary>デバッグログ</summary>
+      <pre id="debugLog">Ready.</pre>
+    </details>
+  </footer>
+  <script src="/static/review.js?v=5"></script>
+</body>
+</html>

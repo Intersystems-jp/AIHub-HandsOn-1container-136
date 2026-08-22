@@ -1,0 +1,17 @@
+{
+    "intersystems.servers": {
+        "agent":{
+            "webServer": {
+                "host": "127.0.0.1",
+                "port": 9991,
+                "scheme": "http",
+            },
+            "username": "SuperUser"
+        }
+    },
+    "objectscript.conn": {
+        "active": false,
+        "server": "agent",
+        "ns": "T1"
+    }
+}

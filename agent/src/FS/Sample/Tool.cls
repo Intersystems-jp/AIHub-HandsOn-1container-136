@@ -1,0 +1,147 @@
+Class FS.Sample.Tool Extends %AI.Tool
+{
+///指定されたCSVファイルの中身を FS.SalesData にロードします。
+/// 引数：ファイルフルパス
+ClassMethod LoadCSV(filepath As %String) As %DynamicObject
+{
+    #dim ex As %Exception.AbstractException
+    try {
+        set response={}
+        if $get(filepath)="" {
+            set response.Status="Error"
+            set response.Message="ファイルフルパスを指定してください"
+            return response
+        }
+        set sql="LOAD DATA FROM FILE '"_filepath_"'"_
+            " INTO FS.SalesData"_
+            " USING {""from"":{""file"":{""charset"":""UTF8"",""header"":true}}}"
+
+        set stmt=##class(%SQL.Statement).%New()
+        set stmt.%SelectMode=1  // ODBCモード
+        $$$ThrowOnError(stmt.%Prepare(sql))
+        set rset=stmt.%Execute()
+        if rset.%SQLCODE<0 {
+            throw ##class(%Exception.SQL).CreateFromSQLCODE(rset.%SQLCODE,rset.%Message)
+        }
+        set response.Status="OK"
+        set response.Message="取り込み終了"
+    }
+    catch ex {
+        set response.Status="Error"
+        set response.Message=ex.DisplayString()
+    }
+    return response
+}
+
+///FS.SalesDataテーブルのデータを全消去します。
+/// 引数無し 
+ClassMethod ClearData() As %DynamicObject
+{
+    set response={}
+    &sql(truncate table FS.SalesData)
+    if SQLCODE<0 {
+        set response.Status="Error SQLCODE="_SQLCODE
+        set response.Message=%msg
+    }
+    else {
+        set response.Status="OK"
+        set response.Message="消去終了"
+    }
+    return response
+}
+
+///FS.SalesDataテーブルのレコード数カウント
+/// 引数無し 
+ClassMethod RecordCount() As %DynamicObject
+{
+    set response={}
+    &sql(select Count(*) into :recordcount from FS.SalesData)
+    if SQLCODE<0 {
+        set response.Status="Error SQLCODE="_SQLCODE
+        set response.Message=%msg
+    }
+    else {
+        set response.Status="OK"
+        set response.RecourdCount=recordcount
+    }
+    return response
+}
+
+
+/// 売上データ全体の件数、期間、総数量、総売上、平均売上、
+/// 店舗数、商品数、カテゴリー数を取得します。
+/// 引数無し 
+ClassMethod GetSalesSummary() As %DynamicObject
+{
+    #dim ex As %Exception.AbstractException
+    try {
+        set response={}
+        set sql="SELECT COUNT(*) AS RecordCount,MIN(SaleDate) AS StartDate,MAX(SaleDate) AS EndDate,"_
+            "SUM(Quantity) AS TotalQuantity,SUM(Amount) AS TotalAmount,AVG(Amount) AS AverageAmount,"_
+            "COUNT(DISTINCT Store) AS StoreCount,COUNT(DISTINCT Product) AS ProductCount,COUNT(DISTINCT Category) AS CategoryCount"_
+            " FROM FS.SalesData"
+
+        set stmt=##class(%SQL.Statement).%New()
+        set stmt.%SelectMode=1  // ODBCモード
+        $$$ThrowOnError(stmt.%Prepare(sql))
+        set rset=stmt.%Execute()
+        if rset.%SQLCODE<0 {
+            throw ##class(%Exception.SQL).CreateFromSQLCODE(rset.%SQLCODE,rset.%Message)
+        }
+        do rset.%Next()
+        set response.RecordCount=rset.RecordCount
+        set response.StartDate=rset.StartDate
+        set response.EndDate=rset.EndDate
+        set response.TotalQuantity=rset.TotalQuantity
+        set response.TotalAmount=rset.TotalAmount
+        set response.AverageAmount=rset.AverageAmount
+        set response.StoreCount=rset.StoreCount
+        set response.ProductCount=rset.ProductCount
+        set response.CategoryCount=rset.CategoryCount
+    }
+    catch ex {
+        set response.Status="Error"
+        set response.Message=ex.DisplayString()
+    }
+    return response
+  
+}
+
+/// 店舗ごとの売上金額、販売数量、件数、平均売上を取得します。
+/// 店舗別の特徴、比較、順位を確認する質問で使用します。
+/// 引数なし
+ClassMethod AnalyzeSalesByStore() As %DynamicObject
+{
+    #dim ex As %Exception.AbstractException
+    set response=[]
+    try {
+        set sql="SELECT Store,COUNT(*) AS RecordCount,SUM(Quantity) AS TotalQuantity,"_
+            "SUM(Amount) AS TotalAmount,AVG(Amount) AS AverageAmount "_
+            "FROM FS.SalesData "_
+            "GROUP BY Store,Product "_
+            "ORDER BY TotalAmount DESC"
+
+        set stmt=##class(%SQL.Statement).%New()
+        set stmt.%SelectMode=1  // ODBCモード
+        $$$ThrowOnError(stmt.%Prepare(sql))
+        set rset=stmt.%Execute()
+        if rset.%SQLCODE<0 {
+            throw ##class(%Exception.SQL).CreateFromSQLCODE(rset.%SQLCODE,rset.%Message)
+        }
+        while rset.%Next() {
+            set reco={}
+            set reco.Store=rset.Store
+            set reco.RecordCount=rset.RecordCount
+            set reco.TotalQuantity=rset.TotalQuantity
+            set reco.TotalAmount=rset.TotalAmount
+            set reco.AverageAmount=rset.AverageAmount
+            do response.%Push(reco)
+        }
+
+    }
+    catch ex {
+
+    }
+    return response
+}
+}

@@ -1,0 +1,5 @@
+NewsId,CustomerId,NewsDate,SourceName,Headline,Description,Relevance,Url
+N001,C001,2026-05-20,Demo News,ABC商事、製造現場のDX投資を拡大,ABC商事は製造現場と営業部門のデータ連携を強化する方針を発表。既存システムとAI活用を組み合わせ、業務効率化を進める。,会議準備エージェントの提案と親和性が高い,https://example.com/news/abc-dx
+N002,C001,2026-05-27,Demo News,ABC商事、営業部門の情報共有基盤を見直し,営業活動に必要な顧客情報、問い合わせ情報、過去提案資料を横断的に参照できる仕組みを検討している。,顧客情報・議事録・サポート履歴を統合するデモの背景に使える,https://example.com/news/abc-sales-platform
+N003,C002,2026-05-18,Demo News,東都メディカルグループ、医療データ活用プロジェクトを開始,グループ横断で診療データの二次利用と分析基盤整備を進める。,FHIRと監査ログの説明につなげやすい,https://example.com/news/toto-medical-data
+N004,C003,2026-05-25,Demo News,北星リテール、店舗運営のデジタル化を推進,店舗スタッフの問い合わせ対応とキャンペーン情報共有を効率化する取り組みを開始。,店舗支援AIエージェントの提案材料になる,https://example.com/news/hokusei-retail
