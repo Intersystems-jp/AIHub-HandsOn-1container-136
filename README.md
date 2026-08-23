@@ -55,18 +55,21 @@ AI エージェントと AI チャットの違いを確認したい場合や、�
 
 初回のみ、コンテナ内で使用するシェルに権限付与のため、以下実行してください。
 
-> [!Note] Docker Desktop for Windows を使用されている場合は、以下のシェル実行は不要です。
+> [!Note] 
+> Docker Desktop for Windows を使用されている場合は、以下のシェル実行は不要です。
 
 ```
 ./init.sh
 ```
-> [!Note] このリポジトリでは、Docker compose V2 で動作するコンテナログイン方法を記載しています
+> [!Note] 
+> このリポジトリでは、Docker compose V2 で動作するコンテナログイン方法を記載しています
 > 
 > docker compose （スペースあり）が使える環境を前提としています（docker compose version の実行結果が、Docker Compose version v2.xx.x と表示されていれば V2 の環境です）。
 
 ### 1. イメージのロード
 
-> [!Note] このリポジトリでは、コンテナ版 IRIS を利用しています。
+> [!Note] 
+> このリポジトリでは、コンテナ版 IRIS を利用しています。
 > - 早期アクセスプログラムのキットは、リリース前のため、キットの入れ替えより動作が変わる可能性があります。予めご了承ください。
 > - このリポジトリは、**ビルド136** で動作確認を行っています。
 
@@ -94,7 +97,8 @@ docker load -i iris-community-2026.3.0AI.136.0-docker.tar.gz
 docker.iscinternal.com/docker-intersystems/intersystems/iris-community:2026.3.0AI.136.0
 ```
 
-> [!Warning] 注意：入手される時期や、ARM64 用の場合にイメージ：タグ名が異なる場合があります。
+> [!Warning]
+> 入手される時期や、ARM64 用の場合にイメージ：タグ名が異なる場合があります。
 
 異なる場合は、以下、Dockerfile に記載のイメージ：タグ名を修正してください。
 
@@ -108,13 +112,15 @@ docker.iscinternal.com/docker-intersystems/intersystems/iris-community:2026.3.0A
 
 git clone で作成されたリポジトリのディレクトリに移動し、その場所に .env を作成します。
 
-> [!Note] Zip でダウロードされた場合は、解凍後、README.MD があるディレクトリに移動して、その場所に .env を作成して下さい。
+> [!Note] 
+> Zip でダウロードされた場合は、解凍後、README.MD があるディレクトリに移動して、その場所に .env を作成して下さい。
 
 **必須で設定するのは、OpenAI の APIキーのみです。**
 
 デモアプリを動かしたい場合は、エージェント内の Web 検索に [Brave サーチ](https://brave.com/search/api/)を使用しているため、Brave の API キーを入手し、設定します。
 
-> [!Note] デモアプリを動かさない場合は、`BRAVE_SEARCH_API_KEY` は、設定不要です。
+> [!Note] 
+> デモアプリを動かさない場合は、`BRAVE_SEARCH_API_KEY` は、設定不要です。
 ```
 OPENAI_API_KEY=xxx
 BRAVE_SEARCH_API_KEY=
@@ -143,7 +149,8 @@ docker compose exec agent bash
 
 エージェント用コンテナへログイン後、テストメソッドを実行し、実行例のような回答が得られるかご確認ください。
 
-> [!Note] エラーが返る場合は、ハンズオン担当者にご連絡ください。
+> [!Note] 
+> エラーが返る場合は、ハンズオン担当者にご連絡ください。
 
 コンテナにログイン：
 ```
@@ -158,7 +165,8 @@ iris session iris -U T1
 ```
 do ##class(Demo.Agent.PreparingMeeting).TestChat()
 ```
-> [!Note] MCP サーバーの開始に少し時間がかかるため、コンテナ開始後、少し待ってから実行してください。
+> [!Note] 
+> MCP サーバーの開始に少し時間がかかるため、コンテナ開始後、少し待ってから実行してください。
 
 <details>
 <summary><b>🔍実行例（クリックすると展開されます）</b></summary>
@@ -366,12 +374,12 @@ IRISにログインします（T1ネームスペースにログイン）。
 ```
 iris session iris -U T1
 ```
->[!Note] ヒント 
-> ObjectScript では、変数、パッケージ名、クラス名、メソッド名、プロパティ名、パラメータ名は大小文字を区別します。** コマンド、関数、特殊変数は区別しませんが、記述に慣れるまで「大小文字を区別する」ものとして記述してください。
+>[!Note] 
+> ヒント : ObjectScript では、変数、パッケージ名、クラス名、メソッド名、プロパティ名、パラメータ名は大小文字を区別します。** コマンド、関数、特殊変数は区別しませんが、記述に慣れるまで「大小文字を区別する」ものとして記述してください。
 
 エージェント用クラスのインスタンスを作成し、任意の変数に設定します。
 
-> [!Note] メモ
+> [!Note] 
 > ビルド136の環境では、OS環境変数に設定したAPIキー情報がうまく取得できないため、変数 provider の設定を行っています。
 
 > `SET`コマンドを使用して変数に値を割り当てます。
@@ -860,8 +868,7 @@ T1>do ##class(FS.AgentTest).TestChat()
 #### 🤖まとめ
 エージェントにツールを設定するには、`%AI.Tool` クラスを継承したツール用クラスを用意し、ツール化したい処理をクラスメソッドで記述します。作成したツールクラスをエージェントクラスのクラスパラメータ：`TOOLSETS` に設定すれば完成です。
 
-> [!Note] ご参考
->
+> [!Note] 
 > - ClassMethodの記述について：[ObjectScript CookBook：ObjectScriptの基本のき！：2-2) ルーチンやメソッドに記述する場合のルール](https://github.com/Intersystems-jp/ObjectScriptCookBook/blob/master/Basic.md#2-2-%E3%83%AB%E3%83%BC%E3%83%81%E3%83%B3%E3%82%84%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%81%AB%E8%A8%98%E8%BF%B0%E3%81%99%E3%82%8B%E5%A0%B4%E5%90%88%E3%81%AE%E3%83%AB%E3%83%BC%E3%83%AB) をご参照ください。
 > - サンプルで使用している SQL 実行方法については、[ObjectScript CookBook：ObjectScriptの基本のき！：7-2) ダイナミックSQL](https://github.com/Intersystems-jp/ObjectScriptCookBook/blob/master/Basic.md#7-2-%E3%83%80%E3%82%A4%E3%83%8A%E3%83%9F%E3%83%83%E3%82%AFsql) をご参照ください。
 > - IRIS での JSON 操作については、[【はじめてのInterSystems IRIS】セルフラーニングビデオ：アクセス編：IRIS での JSON の操作](https://jp.community.intersystems.com/node/480106) をご参照ください。
