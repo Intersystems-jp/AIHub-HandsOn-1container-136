@@ -300,7 +300,7 @@ APIKEY、MODEL、PROVIDER をチェックし、OK ボタンをクリックする
 
 ```ObjectScript
 /// API key for the provider. Supports @{prefix.key} placeholders:
-///   Parameter APIKEY = "@{env.OPENAI_API_KEY}";
+///   Parameter APIKEY = "@{env:OPENAI_API_KEY}";
 ///   Parameter APIKEY = "@{wallet.MySecrets.OpenAIKey}";
 Parameter APIKEY;
 
@@ -314,14 +314,14 @@ Parameter PROVIDER;
 3 つのパラメータに以下の値を登録します。値は、二重引用符で囲います。
 パラメータ名|値
 --|--
-APIKEY|"@{env.OPENAI_API_KEY}"
+APIKEY|"@{env:OPENAI_API_KEY}"
 MODEL|"gpt-4.1-mini"
 PROVIDER|"OpenAI"
 
 設定例は以下の通り：
 
 ```ObjectScript
-Parameter APIKEY="@{env.OPENAI_API_KEY}";
+Parameter APIKEY="@{env:OPENAI_API_KEY}";
 
 Parameter MODEL="gpt-4.1-mini";
 
@@ -384,8 +384,7 @@ iris session iris -U T1
 
 > `SET`コマンドを使用して変数に値を割り当てます。
 ```
-set provider = ##class(%AI.Provider).Create("OpenAI", {"api_key": ($System.Util.GetEnviron("OPENAI_API_KEY"))})
-set agent=##class(FS.ChatTest).%New(provider)
+set agent=##class(FS.ChatTest).%New()
 ```
 続いて、設定したプロバイダーやモデル、APIキーを適用するために初期化処理を実行します（`%Init()` メソッドを実行します）。
 ```
@@ -434,8 +433,7 @@ write resp.Content
 ```ObjectScript
 ClassMethod Test()
 {
-    set provider = ##class(%AI.Provider).Create("OpenAI", {"api_key": ($System.Util.GetEnviron("OPENAI_API_KEY"))})
-    set agent=##class(FS.ChatTest).%New(provider)
+    set agent=##class(FS.ChatTest).%New()
     $$$ThrowOnError(agent.%Init())
     set session=agent.CreateSession()
     set resp=agent.Chat(session,"交通量を分析するとき、どんな観点で確認すればよいですか？")
@@ -466,8 +464,7 @@ kill
 
 1 回目のチャットの会話を実行します。
 ```
-set provider = ##class(%AI.Provider).Create("OpenAI", {"api_key": ($System.Util.GetEnviron("OPENAI_API_KEY"))})
-set agent=##class(FS.ChatTest).%New(provider)
+set agent=##class(FS.ChatTest).%New()
 write agent.%Init()
 set session=agent.CreateSession()
 set resp=agent.Chat(session,"売上データを分析するとき、どんな観点で確認すればよいですか？")
@@ -556,8 +553,7 @@ kill
 ```
 再度、チャットを開始するため、エージェントのインスタンス、初期化を行います。
 ```
-set provider = ##class(%AI.Provider).Create("OpenAI", {"api_key": ($System.Util.GetEnviron("OPENAI_API_KEY"))})
-set agent=##class(FS.ChatTest).%New(provider)
+set agent=##class(FS.ChatTest).%New()
 write agent.%Init()
 ```
 ここで、保存していたセッションをオープンし、保存した会話の後からチャットを再開してみます。
@@ -592,9 +588,7 @@ Write "LLM 応答時間：", stats."total_llm_duration_ms", "ms", !
 ```
 T1>kill
 
-T1>set provider = ##class(%AI.Provider).Create("OpenAI", {"api_key": ($System.Util.GetEnviron("OPENAI_API_KEY"))})
-
-T1>set agent=##class(FS.ChatTest).%New(provider)
+T1>set agent=##class(FS.ChatTest).%New()
 
 T1>write agent.%Init()
 1

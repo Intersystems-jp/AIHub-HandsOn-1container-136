@@ -7,7 +7,7 @@ Parameter PROVIDER = "OpenAI";
 Parameter MODEL = "gpt-4.1-mini";
 
 /// API key -- expand from environment variable at runtime
-Parameter APIKEY = "@{env.OPENAI_API_KEY}";
+Parameter APIKEY = "@{env:OPENAI_API_KEY}";
 /// System Instructions in Markdown
 XData INSTRUCTIONS [ MimeType = text/markdown ]
 {
@@ -76,8 +76,7 @@ XData INSTRUCTIONS [ MimeType = text/markdown ]
 
 ClassMethod Test()
 {
-    set provider = ##class(%AI.Provider).Create("OpenAI", {"api_key": ($System.Util.GetEnviron("OPENAI_API_KEY"))})
-    set agent=##class(FS.ChatTest).%New(provider)
+    set agent=..%New()
     $$$ThrowOnError(agent.%Init())
     set session=agent.CreateSession()
     set resp=agent.Chat(session,"売上データを分析するとき、どんな観点で確認すればよいですか？")

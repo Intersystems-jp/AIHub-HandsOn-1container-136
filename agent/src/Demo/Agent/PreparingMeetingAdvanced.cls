@@ -8,7 +8,7 @@ Parameter PROVIDER = "OpenAI";
 Parameter MODEL = "gpt-4.1-mini";
 
 /// API key -- expand from environment variable at runtime
-Parameter APIKEY = "@{env.OPENAI_API_KEY}";
+Parameter APIKEY = "@{env:OPENAI_API_KEY}";
 
 /// 使用するツールセットのクラス名を指定。複数ある時はカンマ区切り
 /// %AI.Tools.ShellTools は rust:web_search用
@@ -158,17 +158,7 @@ ClassMethod GetProvider() As %AI.Provider
 }
 ClassMethod TestChat(moji As %String) As %Status
 {
-    /*
-      **** EAP ビルド136用 の記述（将来不要になる可能性があります）****
-      以下パラメータ設定でAPIキーが取得できるはずですが、取得できないため
-      Parameter APIKEY = "@{env.OPENAI_API_KEY}";
-      Set provider = ##class(%AI.Provider).Create("OpenAI", {"api_key": ($System.Util.GetEnviron("OPENAI_API_KEY"))})
-      でAPIキーをセットし、エージェントのインスタンス生成時に引数として渡しています。
-      *************************************************************
-    */
-    //Set agent = ..%New()
-    Set provider = ##class(%AI.Provider).Create("OpenAI", {"api_key": ($System.Util.GetEnviron("OPENAI_API_KEY"))})
-    Set agent = ..%New(provider)
+    Set agent = ..%New()
 
     $$$ThrowOnError(agent.%Init())
 

@@ -7,7 +7,7 @@ Parameter PROVIDER = "OpenAI";
 Parameter MODEL = "gpt-4.1-mini";
 
 /// API key -- expand from environment variable at runtime
-Parameter APIKEY = "@{env.OPENAI_API_KEY}";
+Parameter APIKEY = "@{env:OPENAI_API_KEY}";
 
 /// 使用するツールセットのクラス名を指定。複数ある時はカンマ区切り
 Parameter TOOLSETS = "FS.Sample.Tool";
@@ -49,8 +49,7 @@ ClassMethod TestChat(question As %String) As %Status
     //set question="/opt/app/FS/SalesData.csv 店舗別の売上を比較して、特徴を教えて。"
     //set question="/opt/app/FS/SalesData.csv 店舗別の売上実績と売上目標を比較し、経営者が確認すべき店舗を教えて。"    //set question="/opt/app/FS/SalesData.csv この売上データの特徴と改善できそうな点があれば教えて。"
     
-    set provider = ##class(%AI.Provider).Create("OpenAI", {"api_key": ($System.Util.GetEnviron("OPENAI_API_KEY"))})
-    set agent=##class(FS.AgentTest).%New(provider)
+    set agent=..%New()
     $$$ThrowOnError(agent.%Init())
 
     // Create chat session

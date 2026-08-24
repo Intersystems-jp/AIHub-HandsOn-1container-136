@@ -64,11 +64,10 @@ def meeting_prep(req: MeetingPrepRequest) -> dict[str, Any]:
 
 #　IRIS内Agent利用
 def agent_start(req: MeetingPrepRequest):
-    provider=iris.Demo.Agent.PreparingMeetingAdvanced.GetProvider()
     if req.agent_class=="Demo.Agent.PreparingMeeting":
-        agent=iris.Demo.Agent.PreparingMeeting._New(provider)
+        agent=iris.Demo.Agent.PreparingMeeting._New()
     elif req.agent_class=="Demo.Agent.PreparingMeetingAdvanced":
-        agent=iris.Demo.Agent.PreparingMeetingAdvanced._New(provider)
+        agent=iris.Demo.Agent.PreparingMeetingAdvanced._New()
     else:
         ##　Interop呼び出し
         agent=None

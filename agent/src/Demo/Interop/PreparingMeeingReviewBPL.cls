@@ -21,8 +21,7 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <sequence xend='200' yend='950' >
 <assign name="会議準備依頼設定" property="context.state.RequestText" value="request.StringValue" action="set" xpos='200' ypos='250' />
 <code name='agent作成' xpos='200' ypos='350' >
-<![CDATA[ set provider = ##class(%AI.Provider).Create("OpenAI", {"api_key": ($System.Util.GetEnviron("OPENAI_API_KEY"))})
- set agent = ##class(Demo.Agent.PreparingMeetingReview).%New(provider)
+<![CDATA[ set agent = ##class(Demo.Agent.PreparingMeetingReview).%New()
  set status=agent.%Init()
  set policy=##class(%AI.Policy.ConsoleAuth).%New()
  set policy.AlwaysAllow=1
@@ -67,8 +66,7 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <annotation><![CDATA[草案再作成：ワークフローで一旦停止状態となるため、保存したセッションをロードする。
 エージェントもここで再作成]]></annotation>
 <![CDATA[ 
- set provider = ##class(%AI.Provider).Create("OpenAI", {"api_key": ($System.Util.GetEnviron("OPENAI_API_KEY"))})
- set agent = ##class(Demo.Agent.PreparingMeetingReview).%New(provider)
+ set agent = ##class(Demo.Agent.PreparingMeetingReview).%New()
  set policy=##class(%AI.Policy.ConsoleAuth).%New()
  set policy.AlwaysAllow=1
  do agent.ToolManager.SetAuthPolicy(policy)
